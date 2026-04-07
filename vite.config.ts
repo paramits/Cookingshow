@@ -25,6 +25,8 @@ function figmaAssetStub(): Plugin {
 }
 
 export default defineConfig({
+  // Required for GitHub Pages: https://paramits.github.io/Cookingshow/
+  base: '/Cookingshow/',
   plugins: [
     figmaAssetStub(),
     // The React and Tailwind plugins are both required for Make, even if

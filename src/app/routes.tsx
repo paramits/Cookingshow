@@ -21,4 +21,7 @@ export const router = createBrowserRouter([
     path: "/stage4",
     Component: Stage4Complete,
   },
-]);
+], {
+  // Make routing work when hosted under /Cookingshow/ (GitHub Pages)
+  basename: import.meta.env.BASE_URL,
+});
