@@ -103,8 +103,11 @@ function LadleSoup() {
 
 export default function Frame() {
   return (
-    <div className="relative size-full">
-      <LadleSoup />
+    <div className="relative flex size-full items-center justify-center">
+      {/* Bounding box ~79×84 for ladle SVG + overlays; centers art in the 100×100 drag slot */}
+      <div className="relative h-[84px] w-[79px] shrink-0">
+        <LadleSoup />
+      </div>
     </div>
   );
 }

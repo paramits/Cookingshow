@@ -1,10 +1,8 @@
 import svgPaths from "./svg-6xk7gqu24i";
-import imgStage3Wide from "./ece298d0ec2c16f10310d45724b276a6035cb503.png";
-import imgStage3Wide1 from "./1e11969d2d7bcf82fe79e295a5ee1fcd55ec4e5f.png";
 
 function HLines() {
   return (
-    <div className="absolute content-stretch flex flex-col gap-[35.707px] h-0 items-start left-[calc(62.5%+13.75px)] top-[180.84px] w-[369.571px]" data-name="h_lines">
+    <div className="absolute content-stretch flex flex-col gap-[35.707px] h-0 items-start left-[calc(62.5%+13.75px)] top-[180.84px] w-[369.571px] z-10" data-name="h_lines">
       <div className="absolute content-stretch flex gap-[7.141px] h-[35.707px] items-center left-0 pl-[53.561px] top-0 w-[369.571px]">
         <div className="bg-[#b0dfff] shrink-0 size-[5.356px]" />
         <p className="flex-[1_0_0] font-['Martian_Mono:Regular',sans-serif] font-normal leading-[normal] min-h-px min-w-px relative text-[#b0dfff] text-[17.85px]" style={{ fontVariationSettings: "'wdth' 100" }}>
@@ -17,7 +15,7 @@ function HLines() {
 
 function WordsRemaining() {
   return (
-    <div className="absolute bg-[#b0dfff] content-stretch flex font-['Departure_Mono:Regular',sans-serif] gap-[8px] items-center leading-[normal] left-[calc(62.5%+66.5px)] not-italic px-[4px] text-[#192648] text-[16px] top-[142px] whitespace-nowrap" data-name="words-remaining">
+    <div className="absolute z-10 bg-[#b0dfff] content-stretch flex font-['Departure_Mono:Regular',sans-serif] gap-[8px] items-center leading-[normal] left-[calc(62.5%+66.5px)] not-italic px-[4px] text-[#192648] text-[16px] top-[142px] whitespace-nowrap" data-name="words-remaining">
       <p className="relative shrink-0">Words remaining:</p>
       <p className="relative shrink-0">0</p>
     </div>
@@ -30,7 +28,7 @@ function Group() {
       <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 270 357">
         <g id="Group 14306">
           <g id="Vector 47">
-            <path d={svgPaths.p139d2400} fill="var(--fill-0, #4B4B4B)" style={{ mixBlendMode: "multiply" }} />
+            <path d={svgPaths.p139d2400} fill="#262626" fillOpacity={0.75} />
             <path d={svgPaths.p139d2400} stroke="var(--stroke-0, #196DE7)" strokeWidth="3" />
           </g>
         </g>
@@ -89,7 +87,7 @@ function Group1() {
       <div className="absolute h-[15px] left-[134px] top-[201.29px] w-[199px]">
         <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 199 15.0004">
           <g id="Vector 53">
-            <path d={svgPaths.p2e5ebc40} fill="var(--fill-0, #D0DCFF)" style={{ mixBlendMode: "color-dodge" }} />
+            <path d={svgPaths.p2e5ebc40} fill="var(--fill-0, #196DE7)" style={{ width: "300px" }} />
           </g>
         </svg>
       </div>
@@ -434,7 +432,7 @@ function Frame2() {
 
 function Dish() {
   return (
-    <div className="-translate-y-1/2 absolute content-stretch flex flex-col gap-[19px] items-center left-[calc(25%+104px)] top-1/2 w-[304px]" data-name="dish">
+    <div className="-translate-y-1/2 absolute z-10 content-stretch flex flex-col gap-[19px] items-center left-[calc(25%+104px)] top-1/2 w-[304px]" data-name="dish">
       <Frame2 />
       <p className="font-['Poppins:Regular',sans-serif] leading-[normal] not-italic relative shrink-0 text-[16px] text-white w-full">Uses Galaxy Broth, Canopus Noodles, sliced Glowroot, Kentaurus Seasoning</p>
     </div>
@@ -444,65 +442,23 @@ function Dish() {
 export default function Stage3Wide() {
   return (
     <div className="relative size-full" data-name="Stage 3 - wide">
-      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-        <img alt="" className="absolute max-w-none object-cover size-full" src={imgStage3Wide} />
-        <img alt="" className="absolute max-w-none object-cover size-full" src={imgStage3Wide1} />
-        <div className="absolute bg-[rgba(0,0,0,0.2)] inset-0" />
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-[rgba(0,0,0,0.2)]" />
       </div>
-      <div className="absolute blur-[5.8px] h-[750px] left-0 top-0 w-[1300px]">
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-          <img alt="" className="absolute max-w-none object-cover size-full" src={imgStage3Wide} />
-          <img alt="" className="absolute max-w-none object-cover size-full" src={imgStage3Wide1} />
-          <div className="absolute bg-[rgba(0,0,0,0.2)] inset-0" />
-        </div>
+      <div
+        className="absolute left-[calc(62.5%+11.37px)] top-[77px] h-[599px] w-[410px] pointer-events-none"
+        aria-hidden
+        data-name="notepad-pad"
+      >
+        <img
+          src={`${import.meta.env.BASE_URL}pad.svg`}
+          alt=""
+          className="absolute inset-0 block size-full object-fill select-none"
+          draggable={false}
+        />
       </div>
-      <div className="absolute bg-gradient-to-b from-[#070f21] h-[539px] left-[calc(62.5%+13.5px)] to-[#43588b] top-[106px] w-[378px]" />
       <HLines />
       <WordsRemaining />
-      <div className="absolute flex h-[598.907px] items-center justify-center left-[calc(62.5%+11.37px)] top-[77px] w-[409.574px]" style={{ "--transform-inner-width": "1201", "--transform-inner-height": "21" } as React.CSSProperties}>
-        <div className="-scale-y-100 flex-none rotate-90">
-          <div className="h-[409.574px] relative w-[598.907px]" data-name="Union">
-            <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 598.907 409.574">
-              <g filter="url(#filter0_i_1_823)" id="Union">
-                <path d={svgPaths.p24e1a7f0} fill="url(#paint0_linear_1_823)" />
-              </g>
-              <defs>
-                <filter colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="413.574" id="filter0_i_1_823" width="598.907" x="0" y="0">
-                  <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                  <feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape" />
-                  <feColorMatrix in="SourceAlpha" result="hardAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
-                  <feOffset dy="4" />
-                  <feGaussianBlur stdDeviation="2" />
-                  <feComposite in2="hardAlpha" k2="-1" k3="1" operator="arithmetic" />
-                  <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.842047 0 0 0 0 0.842047 0 0 0 0.25 0" />
-                  <feBlend in2="shape" mode="normal" result="effect1_innerShadow_1_823" />
-                </filter>
-                <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_1_823" x1="598.907" x2="0" y1="204.787" y2="204.787">
-                  <stop stopColor="#717171" />
-                  <stop offset="1" stopColor="#4B4B4B" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-        </div>
-      </div>
-      <div className="absolute flex h-[598.907px] items-center justify-center left-[calc(62.5%+11.37px)] top-[77px] w-[409.574px]" style={{ "--transform-inner-width": "1201", "--transform-inner-height": "21" } as React.CSSProperties}>
-        <div className="-scale-y-100 flex-none rotate-90">
-          <div className="h-[409.574px] relative w-[598.907px]" data-name="Union">
-            <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 598.907 409.574">
-              <g id="Union">
-                <path d={svgPaths.p24e1a7f0} fill="url(#paint0_linear_1_804)" style={{ mixBlendMode: "color-dodge" }} />
-              </g>
-              <defs>
-                <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_1_804" x1="598.907" x2="0" y1="204.787" y2="204.787">
-                  <stop stopColor="#4463C0" />
-                  <stop offset="1" stopColor="#636880" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-        </div>
-      </div>
       <Group1 />
       <Dish />
     </div>

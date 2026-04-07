@@ -1,11 +1,9 @@
 import svgPaths from "./svg-09tz5m8t3b";
-import imgStage2Complete from "figma:asset/1e11969d2d7bcf82fe79e295a5ee1fcd55ec4e5f.png";
-import imgRectangle34647297 from "figma:asset/ece298d0ec2c16f10310d45724b276a6035cb503.png";
 import { useGame } from "../app/context/GameContext";
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router";
 import Group14385 from "./Group14385";
-import OptionsKnife from "./OptionsKnife-1/OptionsKnife-28-188";
+import OptionsKnife from "./OptionsKnife/OptionsKnife";
 import Chopped from "./Chopped/Chopped";
 import Sliced from "./Sliced-1/Sliced-29-1191";
 import Mince from "./Mince/Mince";
@@ -33,7 +31,7 @@ function formatItemName(itemType: string): string {
 }
 
 function Time() {
-  const [timeLeft, setTimeLeft] = useState(480); // 8 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(90); // 1:30 in seconds
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -110,9 +108,18 @@ function Bullets() {
     <div className="content-stretch flex flex-col items-start relative shrink-0 w-full" data-name="bullets">
       {displayBullets.length > 0 ? (
         displayBullets.map((bullet, index) => (
-          <div key={index} className="content-stretch flex gap-[7.141px] min-h-[35px] items-start relative shrink-0 w-[286px]">
-            <div className="bg-[#b0dfff] shrink-0 size-[5.356px] mt-[6px]" />
-            <p className="flex-[1_0_0] font-['Martian_Mono:Regular',sans-serif] font-normal leading-[150%] min-h-px min-w-px relative text-[#b0dfff] text-[14.28px] text-[16px] break-words" style={{ fontVariationSettings: "'wdth' 100" }}>
+          <div
+            key={index}
+            className="content-stretch flex gap-[7.141px] min-h-[35px] items-start relative shrink-0 w-[286px] font-['Martian_Mono:Regular',sans-serif] text-[16px] leading-[150%]"
+          >
+            <div
+              className="bg-[#b0dfff] shrink-0 size-[5.356px] self-start mt-[calc((1lh-5.356px)/2)]"
+              aria-hidden
+            />
+            <p
+              className="flex-[1_0_0] font-['Martian_Mono:Regular',sans-serif] font-normal leading-[150%] min-h-px min-w-px relative text-[#b0dfff] text-[16px] break-words"
+              style={{ fontVariationSettings: "'wdth' 100" }}
+            >
               {bullet}
             </p>
           </div>
@@ -159,8 +166,8 @@ function Group22() {
               <feBlend in2="shape" mode="normal" result="effect1_innerShadow_1_1238" />
             </filter>
             <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_1_1238" x1="204.787" x2="204.787" y1="626.626" y2="27.7188">
-              <stop stopColor="#717171" />
-              <stop offset="1" stopColor="#4B4B4B" />
+              <stop stopColor="#262626" stopOpacity={0.75} />
+              <stop offset="1" stopColor="#262626" stopOpacity={0.75} />
             </linearGradient>
           </defs>
         </svg>
@@ -287,6 +294,17 @@ function Group7() {
 }
 
 function CookingArea({ potOnStove, potHasBroth, potHasNoodles, potHasGlowroot, bowlOnTray, bowlHasSoup, bowlHasSeasoning }: { potOnStove: boolean; potHasBroth: boolean; potHasNoodles: boolean; potHasGlowroot: boolean; bowlOnTray: boolean; bowlHasSoup: boolean; bowlHasSeasoning: boolean }) {
+  // Ellipse 28 (tray depression) in tray SVG viewBox 220×150: cx=110.5, cy=74.
+  // Bowl art sits below the vertical midpoint of its 82×80 wrapper (Group at top-[21px], h-[58.768px]),
+  // so after centering on the ellipse we nudge the wrapper up to align the bowl with the tray center.
+  const trayBowlWrapperStyle: React.CSSProperties = {
+    left: `${(110.5 / 220) * 100}%`,
+    top: `${(74 / 150) * 100}%`,
+    transform: "translate(-50%, calc(-50% - 10.384px))",
+    width: "82px",
+    height: "80px",
+  };
+
   return (
     <div className="col-1 content-stretch flex gap-[20px] items-center ml-[26px] mt-[222px] relative row-1" data-name="Cooking_area">
       <div className="h-[150px] relative shrink-0 w-[220px]" data-name="stove">
@@ -379,44 +397,17 @@ function CookingArea({ potOnStove, potHasBroth, potHasNoodles, potHasGlowroot, b
           </div>
         </div>
         {bowlOnTray && !bowlHasSoup && (
-          <div
-            className="absolute"
-            style={{
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '82px',
-              height: '80px'
-            }}
-          >
+          <div className="absolute" style={trayBowlWrapperStyle}>
             <Frame14467 />
           </div>
         )}
         {bowlOnTray && bowlHasSoup && !bowlHasSeasoning && (
-          <div
-            className="absolute"
-            style={{
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '82px',
-              height: '80px'
-            }}
-          >
+          <div className="absolute" style={trayBowlWrapperStyle}>
             <BowlSoup />
           </div>
         )}
         {bowlOnTray && bowlHasSoup && bowlHasSeasoning && (
-          <div
-            className="absolute"
-            style={{
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '82px',
-              height: '80px'
-            }}
-          >
+          <div className="absolute" style={trayBowlWrapperStyle}>
             <BowlSeasoning />
           </div>
         )}
@@ -1349,6 +1340,12 @@ function Group21({
   onBellClick: () => void;
 }) {
   const [bellHovered, setBellHovered] = useState(false);
+  const [bellTipPos, setBellTipPos] = useState({ x: 0, y: 0 });
+
+  const syncBellTipPos = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setBellTipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
 
   return (
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0">
@@ -1357,12 +1354,23 @@ function Group21({
       <button
         className="col-1 ml-[757px] mt-[247px] relative row-1 size-[100px] cursor-pointer hover:scale-105 transition-transform"
         onClick={onBellClick}
-        onMouseEnter={() => setBellHovered(true)}
+        onMouseEnter={(e) => {
+          syncBellTipPos(e);
+          setBellHovered(true);
+        }}
+        onMouseMove={syncBellTipPos}
         onMouseLeave={() => setBellHovered(false)}
       >
         <Group13 />
         {bellHovered && (
-          <div className="absolute left-1/2 -translate-x-1/2 bottom-[calc(100%+8px)] pointer-events-none z-50">
+          <div
+            className="pointer-events-none absolute z-50"
+            style={{
+              left: bellTipPos.x,
+              top: bellTipPos.y,
+              transform: 'translate(-50%, calc(-100% - 8px))',
+            }}
+          >
             <Tooltip itemName="Finish" />
           </div>
         )}
@@ -1596,6 +1604,12 @@ function DraggableItem({
   onDragEnd: () => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [tipPos, setTipPos] = useState({ x: 0, y: 0 });
+
+  const syncTipPos = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setTipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -1604,15 +1618,26 @@ function DraggableItem({
 
   return (
     <div
-      className="relative shrink-0 size-[100px] cursor-grab active:cursor-grabbing"
+      className="relative shrink-0 size-[100px] cursor-grab transition-transform hover:scale-105 active:cursor-grabbing"
       data-name={itemType}
       onMouseDown={handleMouseDown}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={(e) => {
+        syncTipPos(e);
+        setIsHovered(true);
+      }}
+      onMouseMove={syncTipPos}
       onMouseLeave={() => setIsHovered(false)}
     >
       {children}
       {isHovered && (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-[calc(100%+8px)] pointer-events-none z-50">
+        <div
+          className="pointer-events-none absolute z-50"
+          style={{
+            left: tipPos.x,
+            top: tipPos.y,
+            transform: 'translate(-50%, calc(-100% - 8px))',
+          }}
+        >
           <Tooltip itemName={formatItemName(itemType)} />
         </div>
       )}
@@ -1636,6 +1661,12 @@ function DraggableIngredient({
   onDragEnd: () => void;
 }) {
   const [isHovered, setIsHovered] = useState(false);
+  const [tipPos, setTipPos] = useState({ x: 0, y: 0 });
+
+  const syncTipPos = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setTipPos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
+  };
 
   const handleMouseDown = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -1644,16 +1675,27 @@ function DraggableIngredient({
 
   return (
     <div
-      className={`${className} cursor-grab active:cursor-grabbing`}
+      className={`${className} cursor-grab transition-transform hover:scale-105 active:cursor-grabbing`}
       style={style}
       data-name={itemType}
       onMouseDown={handleMouseDown}
-      onMouseEnter={() => setIsHovered(true)}
+      onMouseEnter={(e) => {
+        syncTipPos(e);
+        setIsHovered(true);
+      }}
+      onMouseMove={syncTipPos}
       onMouseLeave={() => setIsHovered(false)}
     >
       {children}
       {isHovered && (
-        <div className="absolute left-1/2 -translate-x-1/2 bottom-[calc(100%+8px)] pointer-events-none z-50">
+        <div
+          className="pointer-events-none absolute z-50"
+          style={{
+            left: tipPos.x,
+            top: tipPos.y,
+            transform: 'translate(-50%, calc(-100% - 8px))',
+          }}
+        >
           <Tooltip itemName={formatItemName(itemType)} />
         </div>
       )}
@@ -1818,9 +1860,12 @@ function Frame1({ dialogueStep }: { dialogueStep: number }) {
         <AlienJudge />
       </div>
       <div className="content-stretch flex items-center justify-center min-h-[180px] min-w-[580px] p-[20px] relative shrink-0" data-name="judge_dialogue">
-        <div aria-hidden="true" className="absolute bg-[#4b4b4b] inset-0 mix-blend-multiply pointer-events-none" />
-        <div aria-hidden="true" className="absolute border-3 border-[#196de7] border-solid inset-0 pointer-events-none" />
-        <p className="font-['Martian_Mono:Regular',sans-serif] font-normal leading-[1.5] relative shrink-0 text-[#d3edfe] text-[20px] w-[523px]" style={{ fontVariationSettings: "'wdth' 100" }}>
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 bg-black/75" />
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 border-[3px] border-solid border-[#196de7]" />
+        <p
+          className="relative z-10 w-[523px] shrink-0 font-['Martian_Mono:Regular',sans-serif] font-normal leading-[1.5] text-[#d3edfe] text-[20px] mix-blend-normal"
+          style={{ fontVariationSettings: "'wdth' 100" }}
+        >
           {dialogueTexts[dialogueStep]}
         </p>
       </div>
@@ -2105,7 +2150,7 @@ export default function Stage2Complete() {
       >
         {itemType === 'pot' && <Group />}
         {itemType === 'pan' && <Group8 />}
-        {itemType === 'ladle' && <Group9 />}
+        {itemType === 'ladle' && (ladleFilled ? <Frame14466 /> : <Group9 />)}
         {itemType === 'spatula' && <Group10 />}
         {itemType === 'knife' && (
           <div className="absolute flex inset-[15.93%_7.14%_15.91%_7%] items-center justify-center">
@@ -2143,17 +2188,8 @@ export default function Stage2Complete() {
 
   return (
     <div ref={containerRef} className="relative size-full" data-name="Stage 2 - complete">
-      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-        <div className="absolute bg-[#012646] inset-0" />
-        <img alt="" className="absolute max-w-none object-cover size-full" src={imgStage2Complete} />
-        <div className="absolute bg-[rgba(0,0,0,0.2)] inset-0" />
-      </div>
-      <div className="absolute blur-[5.8px] h-[750px] left-0 top-0 w-[1300px]">
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-          <img alt="" className="absolute max-w-none object-cover size-full" src={imgRectangle34647297} />
-          <img alt="" className="absolute max-w-none object-cover size-full" src={imgStage2Complete} />
-          <div className="absolute bg-[rgba(0,0,0,0.2)] inset-0" />
-        </div>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-[rgba(0,0,0,0.2)]" />
       </div>
       <div className="absolute h-[150px] left-[410px] top-[600px] w-[18px]">
         <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 18 150">
@@ -2248,12 +2284,12 @@ export default function Stage2Complete() {
       {/* Render OptionsKnife modal */}
       {showKnifeOptions && (
         <div
-          className="absolute z-[9999]"
+          className="absolute z-[2147483647]"
           style={{
-            left: 673 + 110 - 115, // Center above cutting board (230px wide modal)
-            top: 750 - 320 - 207, // Bottom of window is 320px from bottom of game screen (750px tall - 320px - 207px modal height)
-            width: '230px',
-            height: '207px'
+            left: 673 + 110 - 122.5, // Center above cutting board (245px wide modal)
+            top: 750 - 320 - 222, // Bottom of window is 320px from bottom of game screen (750px tall - 320px - 222px modal height)
+            width: '245px',
+            height: '222px'
           }}
         >
           <div onClick={(e) => {

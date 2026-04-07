@@ -1,6 +1,4 @@
 import svgPaths from "./svg-ijdhf288un";
-import imgStage1Wide from "figma:asset/ece298d0ec2c16f10310d45724b276a6035cb503.png";
-import imgStage1Wide1 from "figma:asset/1e11969d2d7bcf82fe79e295a5ee1fcd55ec4e5f.png";
 import { useNavigate } from "react-router";
 import { useState, useRef, useEffect } from "react";
 import { useGame } from "../app/context/GameContext";
@@ -11,7 +9,7 @@ function Group() {
       <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 270 357">
         <g id="Group 14306">
           <g id="Vector 47">
-            <path d={svgPaths.p139d2400} fill="var(--fill-0, #4B4B4B)" style={{ mixBlendMode: "multiply" }} />
+            <path d={svgPaths.p139d2400} fill="#262626" fillOpacity={0.75} />
             <path d={svgPaths.p139d2400} stroke="var(--stroke-0, #196DE7)" strokeWidth="3" />
           </g>
         </g>
@@ -95,7 +93,7 @@ function Group1() {
       <div className="col-1 h-[15px] ml-[68px] mt-[7.29px] relative row-1 w-[199px]">
         <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 199 15.0004">
           <g id="Vector 53">
-            <path d={svgPaths.p2e5ebc40} fill="var(--fill-0, #D0DCFF)" style={{ mixBlendMode: "color-dodge" }} />
+            <path d={svgPaths.p2e5ebc40} fill="var(--fill-0, #196DE7)" style={{ width: "300px" }} />
           </g>
         </svg>
       </div>
@@ -121,9 +119,15 @@ function Group4() {
   );
 }
 
+function adjustTextAreaHeight(el: HTMLTextAreaElement | null) {
+  if (!el) return;
+  el.style.height = "auto";
+  el.style.height = `${el.scrollHeight}px`;
+}
+
 function HLines() {
   const { bullets, setBullets } = useGame();
-  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+  const inputRefs = useRef<(HTMLTextAreaElement | null)[]>([]);
   const [wordsRemaining, setWordsRemaining] = useState(30);
 
   const countWords = (text: string) => {
@@ -139,7 +143,14 @@ function HLines() {
     setWordsRemaining(Math.max(0, 30 - totalWords));
   }, [bullets]);
 
-  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+  useEffect(() => {
+    inputRefs.current.forEach(adjustTextAreaHeight);
+  }, [bullets]);
+
+  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && e.shiftKey) {
+      return;
+    }
     if (e.key === "Enter") {
       e.preventDefault();
       // Create new bullet after current one
@@ -168,21 +179,26 @@ function HLines() {
     const newBullets = [...bullets];
     newBullets[index] = value;
     setBullets(newBullets);
+    requestAnimationFrame(() => adjustTextAreaHeight(inputRefs.current[index]));
   };
 
   return (
     <>
       <div className="col-1 content-stretch flex flex-col gap-[8px] items-start ml-[55.13px] mt-[103.84px] relative row-1 w-[315px] z-10" data-name="h_lines">
         {bullets.map((bullet, index) => (
-          <div key={index} className="content-stretch flex gap-[7.141px] items-center w-full">
-            <div className="bg-[#b0dfff] shrink-0 size-[5.356px]" />
-            <input
-              ref={(el) => (inputRefs.current[index] = el)}
-              type="text"
+          <div key={index} className="content-stretch flex gap-[7.141px] items-start w-full">
+            <div className="bg-[#b0dfff] shrink-0 size-[5.356px] mt-[12px]" />
+            <textarea
+              ref={(el) => {
+                inputRefs.current[index] = el;
+                if (el) requestAnimationFrame(() => adjustTextAreaHeight(el));
+              }}
               value={bullet}
               onChange={(e) => handleChange(index, e.target.value)}
               onKeyDown={(e) => handleKeyDown(index, e)}
-              className="flex-1 font-['Martian_Mono:Regular',sans-serif] font-normal leading-[1.75] bg-transparent border-none outline-none text-[#b0dfff] text-[17.85px] placeholder:text-[#b0dfff]/50 pointer-events-auto"
+              rows={1}
+              wrap="soft"
+              className="w-[270px] min-h-[31px] resize-none overflow-hidden font-['Martian_Mono:Regular',sans-serif] font-normal leading-[1.75] bg-transparent border-none outline-none text-[#b0dfff] text-[17.85px] placeholder:text-[#b0dfff]/50 pointer-events-auto break-words whitespace-pre-wrap"
               placeholder="Type here..."
               style={{ fontVariationSettings: "'wdth' 100" }}
             />
@@ -200,52 +216,10 @@ function HLines() {
 function Group2() {
   return (
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid leading-[0] place-items-start relative shrink-0">
-      <div className="bg-gradient-to-b col-1 from-[#070f21] h-[539px] ml-[2.13px] mt-[29px] row-1 to-[#43588b] w-[378px]" />
+      <div className="col-1 relative row-1 ml-0 mt-0 h-[599px] w-[410px] pointer-events-none" aria-hidden>
+        <img src={`${import.meta.env.BASE_URL}pad.svg`} alt="" className="absolute inset-0 block size-full object-fill select-none" draggable={false} />
+      </div>
       <HLines />
-      <div className="col-1 flex h-[598.907px] items-center justify-center ml-0 mt-0 relative row-1 w-[409.574px]" style={{ "--transform-inner-width": "1201", "--transform-inner-height": "21" } as React.CSSProperties}>
-        <div className="-scale-y-100 flex-none rotate-90">
-          <div className="h-[409.574px] relative w-[598.907px]" data-name="Union">
-            <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 598.907 409.574">
-              <g filter="url(#filter0_i_1_823)" id="Union">
-                <path d={svgPaths.p24e1a7f0} fill="url(#paint0_linear_1_823)" />
-              </g>
-              <defs>
-                <filter colorInterpolationFilters="sRGB" filterUnits="userSpaceOnUse" height="413.574" id="filter0_i_1_823" width="598.907" x="0" y="0">
-                  <feFlood floodOpacity="0" result="BackgroundImageFix" />
-                  <feBlend in="SourceGraphic" in2="BackgroundImageFix" mode="normal" result="shape" />
-                  <feColorMatrix in="SourceAlpha" result="hardAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" />
-                  <feOffset dy="4" />
-                  <feGaussianBlur stdDeviation="2" />
-                  <feComposite in2="hardAlpha" k2="-1" k3="1" operator="arithmetic" />
-                  <feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 0.842047 0 0 0 0 0.842047 0 0 0 0.25 0" />
-                  <feBlend in2="shape" mode="normal" result="effect1_innerShadow_1_823" />
-                </filter>
-                <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_1_823" x1="598.907" x2="0" y1="204.787" y2="204.787">
-                  <stop stopColor="#717171" />
-                  <stop offset="1" stopColor="#4B4B4B" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-        </div>
-      </div>
-      <div className="col-1 flex h-[598.907px] items-center justify-center ml-0 mt-0 relative row-1 w-[409.574px]" style={{ "--transform-inner-width": "1201", "--transform-inner-height": "21" } as React.CSSProperties}>
-        <div className="-scale-y-100 flex-none rotate-90">
-          <div className="h-[409.574px] relative w-[598.907px]" data-name="Union">
-            <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 598.907 409.574">
-              <g id="Union">
-                <path d={svgPaths.p24e1a7f0} fill="url(#paint0_linear_1_804)" style={{ mixBlendMode: "color-dodge" }} />
-              </g>
-              <defs>
-                <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_1_804" x1="598.907" x2="0" y1="204.787" y2="204.787">
-                  <stop stopColor="#4463C0" />
-                  <stop offset="1" stopColor="#636880" />
-                </linearGradient>
-              </defs>
-            </svg>
-          </div>
-        </div>
-      </div>
     </div>
   );
 }
@@ -293,17 +267,8 @@ function Frame3() {
 export default function Stage1Wide() {
   return (
     <div className="relative size-full" data-name="Stage 1 - wide">
-      <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-        <img alt="" className="absolute max-w-none object-cover size-full" src={imgStage1Wide} />
-        <img alt="" className="absolute max-w-none object-cover size-full" src={imgStage1Wide1} />
-        <div className="absolute bg-[rgba(0,0,0,0.2)] inset-0" />
-      </div>
-      <div className="absolute blur-[5.8px] h-[750px] left-0 top-0 w-[1300px]">
-        <div aria-hidden="true" className="absolute inset-0 pointer-events-none">
-          <img alt="" className="absolute max-w-none object-cover size-full" src={imgStage1Wide} />
-          <img alt="" className="absolute max-w-none object-cover size-full" src={imgStage1Wide1} />
-          <div className="absolute bg-[rgba(0,0,0,0.2)] inset-0" />
-        </div>
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0">
+        <div className="absolute inset-0 bg-[rgba(0,0,0,0.2)]" />
       </div>
       <Frame3 />
     </div>

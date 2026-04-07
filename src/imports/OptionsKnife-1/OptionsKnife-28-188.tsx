@@ -47,7 +47,7 @@ function ButtonMince() {
 
 function OptionButtons() {
   return (
-    <div className="-translate-y-1/2 absolute content-stretch flex flex-col gap-[16px] items-start left-[8.26%] right-[8.26%] top-[calc(50%+2.56px)]" data-name="option-buttons">
+    <div className="-translate-y-1/2 absolute content-stretch flex flex-col gap-[16px] items-start left-0 right-0 top-1/2 w-full" data-name="option-buttons">
       <ButtonChop />
       <ButtonSlice />
       <ButtonMince />
@@ -57,7 +57,7 @@ function OptionButtons() {
 
 function OptionsKnife1() {
   return (
-    <div className="-translate-y-1/2 absolute contents left-[8.26%] right-[8.26%] top-[calc(50%+2.56px)]" data-name="options-knife">
+    <div className="absolute contents left-[8.26%] right-[8.26%] top-[calc(50%+2.56px)]" data-name="options-knife">
       <OptionButtons />
     </div>
   );

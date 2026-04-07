@@ -1,12 +1,16 @@
-import svgPaths from "./svg-p5sfpput4m";
+const knifeOptionButtonClass =
+  "group relative shrink-0 w-full cursor-default select-none bg-[#95e3c9] transition-[background-color,color] duration-150 hover:bg-black";
+
+const knifeOptionLabelClass =
+  "font-['Martian_Mono:Regular',sans-serif] font-normal leading-[1.5] relative shrink-0 text-[#1e4c42] text-[16px] whitespace-nowrap cursor-default select-none transition-colors duration-150 group-hover:text-white";
 
 function ButtonChop() {
   return (
-    <div className="relative shrink-0 w-full" data-name="button_chop" style={{ backgroundImage: "linear-gradient(90deg, rgb(149, 227, 201) 0%, rgb(149, 227, 201) 100%), linear-gradient(90deg, rgb(27, 103, 104) 0%, rgb(27, 103, 104) 100%), linear-gradient(rgba(51, 87, 225, 0.62) 0%, rgba(72, 71, 225, 0.62) 14.468%, rgba(25, 109, 231, 0.62) 100%), linear-gradient(90deg, rgb(149, 227, 201) 0%, rgb(149, 227, 201) 100%)" }}>
+    <div className={knifeOptionButtonClass} data-name="button_chop">
       <div aria-hidden="true" className="absolute border border-solid border-white inset-0 pointer-events-none" />
       <div className="flex flex-row items-center justify-center size-full">
-        <div className="content-stretch flex items-center justify-center p-[10px] relative w-full">
-          <p className="font-['Martian_Mono:Regular',sans-serif] font-normal leading-[1.5] relative shrink-0 text-[#1e4c42] text-[16px] whitespace-nowrap" style={{ fontVariationSettings: "'wdth' 100" }}>
+        <div className="content-stretch flex cursor-default select-none items-center justify-center p-[10px] relative w-full">
+          <p className={knifeOptionLabelClass} style={{ fontVariationSettings: "'wdth' 100" }}>
             Chop
           </p>
         </div>
@@ -17,11 +21,11 @@ function ButtonChop() {
 
 function ButtonSlice() {
   return (
-    <div className="relative shrink-0 w-full" data-name="button_slice" style={{ backgroundImage: "linear-gradient(90deg, rgb(149, 227, 201) 0%, rgb(149, 227, 201) 100%), linear-gradient(90deg, rgb(27, 103, 104) 0%, rgb(27, 103, 104) 100%), linear-gradient(rgba(51, 87, 225, 0.62) 0%, rgba(72, 71, 225, 0.62) 14.468%, rgba(25, 109, 231, 0.62) 100%), linear-gradient(90deg, rgb(149, 227, 201) 0%, rgb(149, 227, 201) 100%)" }}>
+    <div className={knifeOptionButtonClass} data-name="button_slice">
       <div aria-hidden="true" className="absolute border border-solid border-white inset-0 pointer-events-none" />
       <div className="flex flex-row items-center justify-center size-full">
-        <div className="content-stretch flex items-center justify-center p-[10px] relative w-full">
-          <p className="font-['Martian_Mono:Regular',sans-serif] font-normal leading-[1.5] relative shrink-0 text-[#1e4c42] text-[16px] whitespace-nowrap" style={{ fontVariationSettings: "'wdth' 100" }}>
+        <div className="content-stretch flex cursor-default select-none items-center justify-center p-[10px] relative w-full">
+          <p className={knifeOptionLabelClass} style={{ fontVariationSettings: "'wdth' 100" }}>
             Slice
           </p>
         </div>
@@ -32,11 +36,11 @@ function ButtonSlice() {
 
 function ButtonMince() {
   return (
-    <div className="relative shrink-0 w-full" data-name="button_mince" style={{ backgroundImage: "linear-gradient(90deg, rgb(149, 227, 201) 0%, rgb(149, 227, 201) 100%), linear-gradient(90deg, rgb(27, 103, 104) 0%, rgb(27, 103, 104) 100%), linear-gradient(rgba(51, 87, 225, 0.62) 0%, rgba(72, 71, 225, 0.62) 14.468%, rgba(25, 109, 231, 0.62) 100%), linear-gradient(90deg, rgb(149, 227, 201) 0%, rgb(149, 227, 201) 100%)" }}>
+    <div className={knifeOptionButtonClass} data-name="button_mince">
       <div aria-hidden="true" className="absolute border border-solid border-white inset-0 pointer-events-none" />
       <div className="flex flex-row items-center justify-center size-full">
-        <div className="content-stretch flex items-center justify-center p-[10px] relative w-full">
-          <p className="font-['Martian_Mono:Regular',sans-serif] font-normal leading-[1.5] relative shrink-0 text-[#1e4c42] text-[16px] whitespace-nowrap" style={{ fontVariationSettings: "'wdth' 100" }}>
+        <div className="content-stretch flex cursor-default select-none items-center justify-center p-[10px] relative w-full">
+          <p className={knifeOptionLabelClass} style={{ fontVariationSettings: "'wdth' 100" }}>
             Mince
           </p>
         </div>
@@ -47,7 +51,7 @@ function ButtonMince() {
 
 function OptionsKnife1() {
   return (
-    <div className="-translate-y-1/2 absolute content-stretch flex flex-col gap-[16px] items-start left-[8.26%] right-[8.26%] top-[calc(50%+2.56px)]" data-name="options-knife">
+    <div className="-translate-y-1/2 absolute bg-[linear-gradient(to_bottom,rgba(0,108,124,0.78)_0%,rgba(0,30,52,0.86)_100%)] border-[3px] border-[#95E3C9] content-stretch flex flex-col gap-[16px] items-start left-[8.26%] p-4 right-[8.26%] top-[calc(50%+152.56px)]" data-name="options-knife">
       <ButtonChop />
       <ButtonSlice />
       <ButtonMince />
@@ -58,17 +62,19 @@ function OptionsKnife1() {
 export default function OptionsKnife() {
   return (
     <div className="relative shadow-[0px_0px_6.3px_0px_#9ffffa] size-full" data-name="Options-knife">
-      <svg className="absolute block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 230 206.879">
-        <g id="Group 14306">
-          <path d={svgPaths.p2047bf00} fill="url(#paint0_linear_25_157)" id="Vector 47" stroke="var(--stroke-0, #EDEDED)" strokeWidth="3" />
-        </g>
-        <defs>
-          <linearGradient gradientUnits="userSpaceOnUse" id="paint0_linear_25_157" x1="115" x2="115" y1="0" y2="206.879">
-            <stop stopColor="#006C7C" stopOpacity="0.78" />
-            <stop offset="1" stopColor="#001E34" stopOpacity="0.86" />
-          </linearGradient>
-        </defs>
-      </svg>
+      <div aria-hidden className="absolute inset-0 pointer-events-none">
+        <object
+          className="block size-full"
+          data={`${import.meta.env.BASE_URL}Options-knife.svg`}
+          type="image/svg+xml"
+        >
+          <img
+            alt=""
+            className="absolute inset-0 block size-full object-fill"
+            src={`${import.meta.env.BASE_URL}Options-knife.svg`}
+          />
+        </object>
+      </div>
       <OptionsKnife1 />
       <div className="absolute inset-0 pointer-events-none rounded-[inherit] shadow-[inset_0px_0px_15.6px_0px_#b0ffd0]" />
     </div>
