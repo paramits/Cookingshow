@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useGame } from "../app/context/GameContext";
 import SpeakBanner from "./SpeakBanner/SpeakBanner";
 
 /** Same countdown + copy as Stage 2 left panel (`Stage2Complete` Group2 + Time). */
 function Stage2Time({ onTimeEnd }: { onTimeEnd?: () => void }) {
-  const [timeLeft, setTimeLeft] = useState(90); // 1:30 in seconds
+  const [timeLeft, setTimeLeft] = useState(60); // 1:00 in seconds
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -141,6 +141,22 @@ export default function Stage4Complete() {
   const [isTimeUp, setIsTimeUp] = useState(false);
   const [ellipsisCount, setEllipsisCount] = useState(1);
   const [showJudgeScore, setShowJudgeScore] = useState(false);
+  const ambienceRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const audio = ambienceRef.current;
+    if (!audio) return;
+    audio.volume = 0.8;
+    audio.loop = true;
+    const playAttempt = audio.play();
+    if (playAttempt !== undefined) {
+      playAttempt.catch(() => {});
+    }
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, []);
 
   // Animate "Judges are discussing." / ".." / "..." once time is up
   useEffect(() => {
@@ -205,6 +221,14 @@ export default function Stage4Complete() {
 
   return (
     <div className="relative size-full" data-name="Stage 4">
+      <audio
+        ref={ambienceRef}
+        src={`${import.meta.env.BASE_URL}pitch.mp3`}
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden
+      />
       <img
         src={`${import.meta.env.BASE_URL}${showJudgeScore ? "Stage4_score.svg" : "Stage4.svg"}`}
         alt=""

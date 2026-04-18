@@ -67,6 +67,7 @@ function PitchBullets() {
         <div key={index} className="content-stretch flex gap-[7.141px] items-start w-full">
           <div className="bg-[#b0dfff] shrink-0 size-[5.356px] mt-[12px]" />
           <textarea
+            spellCheck={false}
             ref={(el) => {
               inputRefs.current[index] = el;
               if (el) requestAnimationFrame(() => adjustTextAreaHeight(el));
@@ -544,9 +545,33 @@ function Dish() {
 
 export default function Stage3Wide() {
   const navigate = useNavigate();
+  const ambienceRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const audio = ambienceRef.current;
+    if (!audio) return;
+    audio.volume = 0.6;
+    audio.loop = true;
+    const playAttempt = audio.play();
+    if (playAttempt !== undefined) {
+      playAttempt.catch(() => {});
+    }
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, []);
 
   return (
     <div className="relative size-full" data-name="Stage 3 - wide">
+      <audio
+        ref={ambienceRef}
+        src={`${import.meta.env.BASE_URL}stage2-3.mp3`}
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden
+      />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[rgba(0,0,0,0.2)]" />
       </div>

@@ -19,6 +19,49 @@ import AlienJudge from "./AlienJudge-2/AlienJudge";
 import SpeakBanner from "./SpeakBanner/SpeakBanner";
 import Tooltip from "./Frame14468/Frame14468";
 
+type BrothBoilTooltip = null | { phase: "countdown"; seconds: number } | { phase: "boiling" };
+
+/** Countdown then persistent “Boiling” — matches `Frame14468` chip; exclamation from `public/exclaimation.svg`. */
+function BoilingBrothTooltip({ state }: { state: Exclude<BrothBoilTooltip, null> }) {
+  const isBoiling = state.phase === "boiling";
+
+  return (
+    <div
+      className={`relative inline-flex h-[44px] w-fit max-w-full shrink-0 items-center gap-[8px] rounded-[4px] px-[10px] py-0 ${
+        isBoiling ? "boiling-tooltip-breathe" : ""
+      }`}
+      data-name="boiling-tooltip"
+    >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 rounded-[4px] bg-black/75"
+      />
+      {isBoiling && (
+        <img
+          src={`${import.meta.env.BASE_URL}exclaimation.svg`}
+          alt=""
+          width={9}
+          height={24}
+          className="relative z-10 h-[22px] w-[9px] shrink-0 object-contain pointer-events-none select-none"
+          draggable={false}
+        />
+      )}
+      <p
+        className="relative z-10 whitespace-nowrap font-['Martian_Mono:Regular',sans-serif] font-normal leading-[1.5] text-[16px] text-white"
+        style={{ fontVariationSettings: "'wdth' 100" }}
+      >
+        {state.phase === "countdown" ? (
+          <>
+            <span className="tabular-nums">{state.seconds}</span>s until boil
+          </>
+        ) : (
+          "Boiling"
+        )}
+      </p>
+    </div>
+  );
+}
+
 // Utility function to format item names from camelCase to Title Case
 function formatItemName(itemType: string): string {
   // Add space before capital letters and capitalize first letter of each word
@@ -31,7 +74,7 @@ function formatItemName(itemType: string): string {
 }
 
 function Time() {
-  const [timeLeft, setTimeLeft] = useState(90); // 1:30 in seconds
+  const [timeLeft, setTimeLeft] = useState(360); // 6:00 in seconds
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -293,7 +336,7 @@ function Group7() {
   );
 }
 
-function CookingArea({ potOnStove, potHasBroth, potHasNoodles, potHasGlowroot, bowlOnTray, bowlHasSoup, bowlHasSeasoning }: { potOnStove: boolean; potHasBroth: boolean; potHasNoodles: boolean; potHasGlowroot: boolean; bowlOnTray: boolean; bowlHasSoup: boolean; bowlHasSeasoning: boolean }) {
+function CookingArea({ potOnStove, potHasBroth, potHasNoodles, potHasGlowroot, bowlOnTray, bowlHasSoup, bowlHasSeasoning, brothBoilTooltip }: { potOnStove: boolean; potHasBroth: boolean; potHasNoodles: boolean; potHasGlowroot: boolean; bowlOnTray: boolean; bowlHasSoup: boolean; bowlHasSeasoning: boolean; brothBoilTooltip: BrothBoilTooltip }) {
   // Ellipse 28 (tray depression) in tray SVG viewBox 220×150: cx=110.5, cy=74.
   // Bowl art sits below the vertical midpoint of its 82×80 wrapper (Group at top-[21px], h-[58.768px]),
   // so after centering on the ellipse we nudge the wrapper up to align the bowl with the tray center.
@@ -364,6 +407,14 @@ function CookingArea({ potOnStove, potHasBroth, potHasNoodles, potHasGlowroot, b
             }}
           >
             <Frame14465 />
+          </div>
+        )}
+        {potOnStove && potHasBroth && brothBoilTooltip !== null && (
+          <div
+            className="pointer-events-none absolute left-1/2 z-30 w-max -translate-x-1/2"
+            style={{ bottom: "calc(40px + 168px + 16px)" }}
+          >
+            <BoilingBrothTooltip state={brothBoilTooltip} />
           </div>
         )}
       </div>
@@ -1326,7 +1377,8 @@ function Group21({
   bowlOnTray,
   bowlHasSoup,
   bowlHasSeasoning,
-  onBellClick
+  onBellClick,
+  brothBoilTooltip
 }: {
   onDragStart: (itemType: string) => void;
   onDragEnd: () => void;
@@ -1338,6 +1390,7 @@ function Group21({
   bowlHasSoup: boolean;
   bowlHasSeasoning: boolean;
   onBellClick: () => void;
+  brothBoilTooltip: BrothBoilTooltip;
 }) {
   const [bellHovered, setBellHovered] = useState(false);
   const [bellTipPos, setBellTipPos] = useState({ x: 0, y: 0 });
@@ -1350,7 +1403,7 @@ function Group21({
   return (
     <div className="grid-cols-[max-content] grid-rows-[max-content] inline-grid place-items-start relative shrink-0">
       <div className="bg-[#d9d9d9] col-1 h-[393px] ml-0 mt-0 row-1 w-[893px]" data-name="table" />
-      <CookingArea potOnStove={potOnStove} potHasBroth={potHasBroth} potHasNoodles={potHasNoodles} potHasGlowroot={potHasGlowroot} bowlOnTray={bowlOnTray} bowlHasSoup={bowlHasSoup} bowlHasSeasoning={bowlHasSeasoning} />
+      <CookingArea potOnStove={potOnStove} potHasBroth={potHasBroth} potHasNoodles={potHasNoodles} potHasGlowroot={potHasGlowroot} bowlOnTray={bowlOnTray} bowlHasSoup={bowlHasSoup} bowlHasSeasoning={bowlHasSeasoning} brothBoilTooltip={brothBoilTooltip} />
       <button
         className="col-1 ml-[757px] mt-[247px] relative row-1 size-[100px] cursor-pointer hover:scale-105 transition-transform"
         onClick={onBellClick}
@@ -1361,6 +1414,15 @@ function Group21({
         onMouseMove={syncBellTipPos}
         onMouseLeave={() => setBellHovered(false)}
       >
+        {bowlHasSeasoning && (
+          <img
+            src="/arrow.svg"
+            alt="Arrow pointing to bell"
+            className="pointer-events-none absolute left-1/2 -translate-x-1/2 bell-arrow-float"
+            style={{ bottom: '100%', marginBottom: '5px' }}
+            draggable={false}
+          />
+        )}
         <Group13 />
         {bellHovered && (
           <div
@@ -1824,7 +1886,8 @@ function Frame({
   bowlOnTray,
   bowlHasSoup,
   bowlHasSeasoning,
-  onBellClick
+  onBellClick,
+  brothBoilTooltip
 }: {
   onDragStart: (itemType: string) => void;
   onDragEnd: () => void;
@@ -1837,10 +1900,11 @@ function Frame({
   bowlHasSoup: boolean;
   bowlHasSeasoning: boolean;
   onBellClick: () => void;
+  brothBoilTooltip: BrothBoilTooltip;
 }) {
   return (
     <div className="absolute content-stretch flex flex-col items-start leading-[0] left-[407px] top-[207px] w-[893px]">
-      <Group21 onDragStart={onDragStart} onDragEnd={onDragEnd} potOnStove={potOnStove} potHasBroth={potHasBroth} potHasNoodles={potHasNoodles} potHasGlowroot={potHasGlowroot} bowlOnTray={bowlOnTray} bowlHasSoup={bowlHasSoup} bowlHasSeasoning={bowlHasSeasoning} onBellClick={onBellClick} />
+      <Group21 onDragStart={onDragStart} onDragEnd={onDragEnd} potOnStove={potOnStove} potHasBroth={potHasBroth} potHasNoodles={potHasNoodles} potHasGlowroot={potHasGlowroot} bowlOnTray={bowlOnTray} bowlHasSoup={bowlHasSoup} bowlHasSeasoning={bowlHasSeasoning} onBellClick={onBellClick} brothBoilTooltip={brothBoilTooltip} />
       <Items onDragStart={onDragStart} onDragEnd={onDragEnd} ladleFilled={ladleFilled} />
     </div>
   );
@@ -1887,16 +1951,61 @@ export default function Stage2Complete() {
   const [bowlOnTray, setBowlOnTray] = useState(false);
   const [bowlHasSoup, setBowlHasSoup] = useState(false);
   const [bowlHasSeasoning, setBowlHasSeasoning] = useState(false);
+  const [brothBoilTooltip, setBrothBoilTooltip] = useState<BrothBoilTooltip>(null);
   const [dialogueStep, setDialogueStep] = useState(0);
   const [showBanner, setShowBanner] = useState(true);
   const [judgeVisible, setJudgeVisible] = useState(false);
   const [judgeSequenceComplete, setJudgeSequenceComplete] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const dismissTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const stageAudioRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const audio = stageAudioRef.current;
+    if (!audio) return;
+    audio.loop = true;
+    const playAttempt = audio.play();
+    if (playAttempt !== undefined) {
+      playAttempt.catch(() => {});
+    }
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, []);
+
+  useEffect(() => {
+    const audio = stageAudioRef.current;
+    if (!audio) return;
+    audio.volume = judgeVisible ? 0.7 : 1;
+  }, [judgeVisible]);
 
   const handleBellClick = () => {
     navigate('/stage3');
   };
+
+  // After galaxy broth is in the pot, 8s countdown then show “Boiling” until noodles are added.
+  useEffect(() => {
+    if (!potHasBroth || potHasNoodles) {
+      setBrothBoilTooltip(null);
+      return;
+    }
+
+    setBrothBoilTooltip({ phase: "countdown", seconds: 8 });
+    const id = window.setInterval(() => {
+      setBrothBoilTooltip((prev) => {
+        if (prev === null) return null;
+        if (prev.phase === "boiling") return prev;
+        if (prev.seconds === 0) {
+          window.clearInterval(id);
+          return { phase: "boiling" };
+        }
+        return { phase: "countdown", seconds: prev.seconds - 1 };
+      });
+    }, 1000);
+
+    return () => window.clearInterval(id);
+  }, [potHasBroth, potHasNoodles]);
 
   // Handle space bar press/release
   useEffect(() => {
@@ -1957,6 +2066,31 @@ export default function Stage2Complete() {
     };
   }, [dialogueStep, judgeVisible]);
 
+  const dragDropSnapshotRef = useRef({
+    potOnStove,
+    potHasBroth,
+    potHasNoodles,
+    potHasGlowroot,
+    ladleFilled,
+    bowlOnTray,
+    bowlHasSoup,
+    bowlHasSeasoning,
+    boardIngredient,
+    brothBoilTooltip,
+  });
+  dragDropSnapshotRef.current = {
+    potOnStove,
+    potHasBroth,
+    potHasNoodles,
+    potHasGlowroot,
+    ladleFilled,
+    bowlOnTray,
+    bowlHasSoup,
+    bowlHasSeasoning,
+    boardIngredient,
+    brothBoilTooltip,
+  };
+
   const handleDragStart = (itemType: string) => {
     setDragState({ itemType, mouseX: 0, mouseY: 0 });
   };
@@ -1964,6 +2098,18 @@ export default function Stage2Complete() {
   const handleDragEnd = () => {
     // Check if item was dropped on stove or cutting board
     if (dragState && containerRef.current) {
+      const {
+        potOnStove,
+        potHasBroth,
+        potHasNoodles,
+        potHasGlowroot,
+        ladleFilled,
+        bowlOnTray,
+        bowlHasSoup,
+        bowlHasSeasoning,
+        boardIngredient,
+        brothBoilTooltip,
+      } = dragDropSnapshotRef.current;
       const { itemType, mouseX, mouseY } = dragState;
 
       // Stove area coordinates (Frame is at left: 407px, top: 207px)
@@ -2008,9 +2154,17 @@ export default function Stage2Complete() {
         else if (itemType === 'galaxyBroth' && potOnStove) {
           setPotHasBroth(true);
         }
-        // If canopus noodles are dropped and pot has broth, add noodles
-        else if (itemType === 'canopusNoodles' && potHasBroth) {
+        // Canopus noodles only after broth has reached “Boiling” (not during countdown)
+        else if (
+          itemType === "canopusNoodles" &&
+          potHasBroth &&
+          brothBoilTooltip?.phase === "boiling"
+        ) {
           setPotHasNoodles(true);
+        }
+        // Canopus on stove before boil: reject (do not ghost-place via generic stove branch)
+        else if (itemType === "canopusNoodles") {
+          // Waiting for boil or missing broth; item returns to shelf
         }
         // If sliced glowroot is dropped and pot has noodles, add glowroot
         else if (itemType === 'slicedGlowroot' && potHasNoodles) {
@@ -2188,6 +2342,14 @@ export default function Stage2Complete() {
 
   return (
     <div ref={containerRef} className="relative size-full" data-name="Stage 2 - complete">
+      <audio
+        ref={stageAudioRef}
+        src={`${import.meta.env.BASE_URL}vmm.mp3`}
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden
+      />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[rgba(0,0,0,0.2)]" />
       </div>
@@ -2206,14 +2368,14 @@ export default function Stage2Complete() {
         </svg>
       </div>
       <Group22 />
-      <Frame onDragStart={handleDragStart} onDragEnd={handleDragEnd} potOnStove={potOnStove} potHasBroth={potHasBroth} potHasNoodles={potHasNoodles} potHasGlowroot={potHasGlowroot} ladleFilled={ladleFilled} bowlOnTray={bowlOnTray} bowlHasSoup={bowlHasSoup} bowlHasSeasoning={bowlHasSeasoning} onBellClick={handleBellClick} />
+      <Frame onDragStart={handleDragStart} onDragEnd={handleDragEnd} potOnStove={potOnStove} potHasBroth={potHasBroth} potHasNoodles={potHasNoodles} potHasGlowroot={potHasGlowroot} ladleFilled={ladleFilled} bowlOnTray={bowlOnTray} bowlHasSoup={bowlHasSoup} bowlHasSeasoning={bowlHasSeasoning} onBellClick={handleBellClick} brothBoilTooltip={brothBoilTooltip} />
       {judgeVisible && <Frame1 dialogueStep={dialogueStep} />}
 
       {/* SpeakBanner vertically centered */}
       {judgeVisible && showBanner && (
         <div className="absolute left-0 w-full flex items-center justify-center" style={{ top: '50%', transform: 'translateY(-50%)', zIndex: 1000 }}>
           <div className="h-[200px] w-full flex items-center justify-center">
-            <SpeakBanner />
+            <SpeakBanner text="Hold [SPACE] to speak, release to finish" />
           </div>
         </div>
       )}

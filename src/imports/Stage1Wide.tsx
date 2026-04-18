@@ -189,6 +189,7 @@ function HLines() {
           <div key={index} className="content-stretch flex gap-[7.141px] items-start w-full">
             <div className="bg-[#b0dfff] shrink-0 size-[5.356px] mt-[12px]" />
             <textarea
+              spellCheck={false}
               ref={(el) => {
                 inputRefs.current[index] = el;
                 if (el) requestAnimationFrame(() => adjustTextAreaHeight(el));
@@ -228,18 +229,12 @@ function Group5() {
   return (
     <div className="absolute h-[104.176px] left-[221px] top-[427px] w-[115.759px]">
       <div className="absolute inset-[-0.96%_-0.86%]">
-        <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 117.76 106.176">
-          <g id="Group 14381">
-            <path d={svgPaths.p23960e00} id="Vector 33" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="2" />
-            <path d={svgPaths.p3343380} id="Vector 34" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="2" />
-            <path d={svgPaths.p3aeefc00} id="Vector 35" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="2" />
-            <path d={svgPaths.p2386b760} id="Vector 36" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="2" />
-            <path d={svgPaths.p1032dd40} id="Vector 37" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="2" />
-            <path d={svgPaths.p1b801d40} id="Vector 38" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="2" />
-            <path d={svgPaths.p492f200} id="Vector 39" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="2" />
-            <path d={svgPaths.p27645700} id="Vector 40" stroke="var(--stroke-0, black)" strokeLinecap="round" strokeWidth="2" />
-          </g>
-        </svg>
+        <img
+          src={`${import.meta.env.BASE_URL}bowl-sketch.png`}
+          alt=""
+          className="block size-full object-fill select-none pointer-events-none"
+          draggable={false}
+        />
       </div>
     </div>
   );
@@ -265,8 +260,33 @@ function Frame3() {
 }
 
 export default function Stage1Wide() {
+  const ambienceRef = useRef<HTMLAudioElement>(null);
+
+  useEffect(() => {
+    const audio = ambienceRef.current;
+    if (!audio) return;
+    audio.volume = 0.6;
+    audio.loop = true;
+    const playAttempt = audio.play();
+    if (playAttempt !== undefined) {
+      playAttempt.catch(() => {});
+    }
+    return () => {
+      audio.pause();
+      audio.currentTime = 0;
+    };
+  }, []);
+
   return (
     <div className="relative size-full" data-name="Stage 1 - wide">
+      <audio
+        ref={ambienceRef}
+        src={`${import.meta.env.BASE_URL}stage2-3.mp3`}
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden
+      />
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
         <div className="absolute inset-0 bg-[rgba(0,0,0,0.2)]" />
       </div>

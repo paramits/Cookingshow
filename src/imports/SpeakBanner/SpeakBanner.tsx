@@ -7,7 +7,7 @@ export default function SpeakBanner({
 }: SpeakBannerProps) {
   return (
     <div
-      className="content-stretch flex items-center justify-center bg-black/75 p-[10px] relative size-full"
+      className="content-stretch flex items-center justify-center bg-black/85 p-[10px] relative size-full"
       data-name="speak_banner"
     >
       <p

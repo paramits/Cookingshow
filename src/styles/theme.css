@@ -179,3 +179,51 @@
     line-height: 1.5;
   }
 }
+
+/* Stage 2 — broth tooltip “Boiling” state: gentle scale pulse */
+@keyframes boiling-tooltip-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.06);
+  }
+}
+
+/* Pulse by default; respect reduced-motion (otherwise many systems never animate). */
+.boiling-tooltip-breathe {
+  animation: boiling-tooltip-breathe 2.4s ease-in-out infinite;
+  transform-origin: center center;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boiling-tooltip-breathe {
+    animation: none;
+    will-change: auto;
+  }
+}
+
+/* Stage 2 — bell arrow: gentle vertical float */
+@keyframes bell-arrow-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.bell-arrow-float {
+  animation: bell-arrow-float 1.6s ease-in-out infinite;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bell-arrow-float {
+    animation: none;
+    will-change: auto;
+  }
+}

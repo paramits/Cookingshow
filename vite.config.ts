@@ -24,9 +24,9 @@ function figmaAssetStub(): Plugin {
   }
 }
 
-export default defineConfig({
-  // Required for GitHub Pages: https://paramits.github.io/Cookingshow/
-  base: '/Cookingshow/',
+export default defineConfig(({ command }) => ({
+  // GitHub Pages needs /Cookingshow/; local dev uses / so URLs like localhost:5173/stage4 work.
+  base: command === 'serve' ? '/' : '/Cookingshow/',
   plugins: [
     figmaAssetStub(),
     // The React and Tailwind plugins are both required for Make, even if
@@ -43,4 +43,4 @@ export default defineConfig({
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
-})
+}))
